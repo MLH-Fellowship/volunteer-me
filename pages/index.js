@@ -1,53 +1,43 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import { auth } from 'firebase';
+import { useAuth } from '../lib/auth';
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
+import { FcGoogle } from 'react-icons/fc';
+import { GoSignOut } from 'react-icons/go';
+// 1. import `ChakraProvider` component
+import { ChakraProvider,Button, ButtonGroup,Stack, Heading, Text, Code } from "@chakra-ui/react"
+
+import Link from 'next/link'
+
+const Home = () =>{
+
+  const auth = useAuth();
+  return <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Volunteer Me</title>
+        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Volunteer Me
-        </h1>
+      <main>
+        <Heading>Volunteer Me</Heading> 
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+      <Text>
+        Current user: <Code> {auth.user ? auth.user.email : 'None'}</Code>
+      </Text>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+      <Stack direction="row" spacing={4}>
+        {auth?.user ? (
+        <Button leftIcon={<GoSignOut />} onClick={(e) => auth.signout()} colorScheme="red" variant="outline">
+          Sign Out
+          </Button>
+      ): (
+        <Button leftIcon={<FcGoogle />} onClick={(e) => auth.signInWithGoogle()} colorScheme="red" variant="solid">
+          Sign In
+          </Button>
+          
+      )}
+      </Stack>
       </main>
 
       <footer className={styles.footer}>
@@ -61,5 +51,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
-}
+  };
+  export default Home;
