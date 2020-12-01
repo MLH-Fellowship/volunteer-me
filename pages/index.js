@@ -6,7 +6,7 @@ import { useAuth } from '../lib/auth';
 import { FcGoogle } from 'react-icons/fc';
 import { GoSignOut } from 'react-icons/go';
 // 1. import `ChakraProvider` component
-import { ChakraProvider,Button, ButtonGroup,Stack } from "@chakra-ui/react"
+import { ChakraProvider,Button, ButtonGroup,Stack, Heading, Text, Code } from "@chakra-ui/react"
 
 import Link from 'next/link'
 
@@ -15,19 +15,16 @@ const Home = () =>{
   const auth = useAuth();
   return <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Volunteer Me</title>
+        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Volunteer Me
-        </h1>
+      <main>
+        <Heading>Volunteer Me</Heading> 
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+      <Text>
+        Current user: <Code> {auth.user ? auth.user.email : 'None'}</Code>
+      </Text>
 
       <Stack direction="row" spacing={4}>
         {auth?.user ? (
