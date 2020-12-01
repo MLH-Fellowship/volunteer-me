@@ -3,6 +3,7 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   return (
+    
   <ProvideAuth>
     <Component {...pageProps} />
   </ProvideAuth>

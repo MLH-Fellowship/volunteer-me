@@ -3,6 +3,13 @@ import styles from '../styles/Home.module.css'
 import { auth } from 'firebase';
 import { useAuth } from '../lib/auth';
 
+import { FcGoogle } from 'react-icons/fc';
+import { GoSignOut } from 'react-icons/go';
+// 1. import `ChakraProvider` component
+import { ChakraProvider,Button, ButtonGroup,Stack } from "@chakra-ui/react"
+
+import Link from 'next/link'
+
 const Home = () =>{
 
   const auth = useAuth();
@@ -22,11 +29,18 @@ const Home = () =>{
           <code className={styles.code}>pages/index.js</code>
         </p>
 
+      <Stack direction="row" spacing={4}>
         {auth?.user ? (
-        <button onClick={(e) => auth.signout()}>Sign Out</button>
+        <Button leftIcon={<GoSignOut />} onClick={(e) => auth.signout()} colorScheme="red" variant="outline">
+          Sign Out
+          </Button>
       ): (
-        <button onClick={(e) => auth.signInWithGoogle()}>Sign In</button>
+        <Button leftIcon={<FcGoogle />} onClick={(e) => auth.signInWithGoogle()} colorScheme="red" variant="solid">
+          Sign In
+          </Button>
+          
       )}
+      </Stack>
       </main>
 
       <footer className={styles.footer}>
