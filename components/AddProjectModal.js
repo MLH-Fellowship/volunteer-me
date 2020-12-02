@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useAuth } from '../lib/auth';
+import { useAuth } from '@/lib/auth';
 import {
     Modal,
     ModelOverlay,
@@ -19,7 +19,7 @@ import {
     ModalOverlay
 } from '@chakra-ui/react';
 
-import { createProject } from '../lib/db'
+import { createProject } from '@/lib/db'
 
 const AddProjectModal = () => {
     const initialRef = useRef();
