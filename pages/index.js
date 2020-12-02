@@ -4,29 +4,36 @@ import { auth } from 'firebase';
 import { useAuth } from '../lib/auth';
 
 import { FcGoogle } from 'react-icons/fc';
-import { GoSignOut } from 'react-icons/go';
+
 // 1. import `ChakraProvider` component
-import { ChakraProvider,Button, ButtonGroup,Stack, Heading, Text, Code } from "@chakra-ui/react"
+import { ChakraProvider, Button, Icon, Flex, Stack, Heading, Text, Code } from "@chakra-ui/react"
 
 import Link from 'next/link'
 
-const Home = () =>{
+const Home = () => {
 
   const auth = useAuth();
-  return <div className={styles.container}>
-      <Head>
-        <title>Volunteer Me</title>
-        {/* <link rel="icon" href="/favicon.ico" /> */}
-      </Head>
+  return (
+  <Flex
+    as="main"
+    direction="column"
+    align="center"
+    justify="center"
+    h="100vh"
+  >
+    <Head>
+      <title>Volunteer Me</title>
+      {/* <link rel="icon" href="/favicon.ico" /> */}
+    </Head>
 
-      <main>
-        <Heading>Volunteer Me</Heading> 
 
-      <Text>
+    <Icon color="black" name="logo" size="64px" />
+
+    {/* <Text>
         Current user: <Code> {auth.user ? auth.user.email : 'None'}</Code>
-      </Text>
+      </Text> */}
 
-      <Stack direction="row" spacing={4}>
+    {/* <Stack direction="row" spacing={4}>
         {auth?.user ? (
         <Button leftIcon={<GoSignOut />} onClick={(e) => auth.signout()} colorScheme="red" variant="outline">
           Sign Out
@@ -37,19 +44,30 @@ const Home = () =>{
           </Button>
           
       )}
-      </Stack>
-      </main>
+      </Stack> */}
+    {auth.user ? (
+      <Button as="a" href="/dashboard">
+        View Dashboard
+      </Button>
+    ) : (
+        <Button leftIcon={<FcGoogle />} mt={4} size="sm" onClick={(e) => auth.signInWithGoogle()}>
+          Sign In
+        </Button>
+      )}
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  };
-  export default Home;
+  </Flex>
+
+    // <footer className={styles.footer}>
+    //   <a
+    //     href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+    //     target="_blank"
+    //     rel="noopener noreferrer"
+    //   >
+    //     Powered by{' '}
+    //     <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+    //   </a>
+    // </footer>
+
+  );
+};
+export default Home;
