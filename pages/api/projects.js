@@ -1,9 +1,6 @@
 import db from '@/lib/firebase-admin';
 
-
-
 export default async (_, res) => {
-
   const snapshot = await db.collection('projects').get();
   const projects = [];
 
