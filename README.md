@@ -3,9 +3,10 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://www.gitpod.io/#https://github.com/ShayanRiyaz/volunteer-me)
 
 
+
 ```shell
-$ git clone https://github.com/leerob/fastfeedback.git
-$ cd fastfeedback
+$ git clone https://github.com/shayanriyaz/volunteer-me.git
+$ cd volunteer-me
 $ yarn
 $ yarn dev
 ```
