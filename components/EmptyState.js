@@ -6,7 +6,7 @@ import DashboardShell from './DashboardShell';
 import AddProjectModal from './AddProjectModal';
 
 const EmptyState = () => (
-    <DashboardShell>
+      // <DashboardShell>
       <Flex
         width="100%"
         backgroundColor="white"
@@ -20,9 +20,10 @@ const EmptyState = () => (
           You haven’t added any projects.
         </Heading>
         <Text mb={4}>Let’s get started.</Text>
-        <AddProjectModal />
+        <AddProjectModal>Add Your First Project</AddProjectModal>
       </Flex>
-    </DashboardShell>
+      // </DashboardShell>
+
   );
 
   export default EmptyState;

@@ -22,7 +22,7 @@ import {
 
 import { createProject } from "@/lib/db";
 
-const AddProjectModal = () => {
+const AddProjectModal = ({ children }) => {
   const initialRef = useRef();
   const toast = useToast();
   const auth = useAuth();
@@ -40,7 +40,7 @@ const AddProjectModal = () => {
     country,
     startDate,
     endDate }) => {
-    createProject({
+    const newProject = {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
       project,
@@ -51,7 +51,8 @@ const AddProjectModal = () => {
       country,
       startDate,
       endDate,
-    });
+    };
+    createProject(newProject);
     toast({
       title: "Success!",
       description: "We've added your project.",
@@ -59,15 +60,35 @@ const AddProjectModal = () => {
       duration: 5000,
       isClosable: true,
     });
+    mutate(
+      '/api/projects',
+      async (data) => {
+        return { projects: [...data.projects, newProject] };
+      },
+      false
+    );
     onClose();
   };
 
   return (
     <>
-      <Button fontWeight="medium" maxW="200px" onClick={onOpen}>
-        Add your First Project
+      <Button 
+      onClick={onOpen}
+      fontWeight="medium" 
+      maxW="200px" 
+      backgroundColor="gray.900"
+      color="white"
+      _hover={{ bg: 'gray.700' }}
+      _active={{
+        bg: 'gray.800',
+        transform: 'scale(0.95)'
+      }}
+      >
+        {/* +  */}
+        {/* Add your First Project */}
+        {children}
       </Button>
-      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onCreateProject)}>
           <ModalHeader fontWeight="bold">Add Project</ModalHeader>
@@ -154,6 +175,9 @@ const AddProjectModal = () => {
               />
             </FormControl>
           </ModalBody>
+
+
+          
           <ModalFooter>
             <Button onClick={onClose} mr={3} fontWeight="medium">
               Cancel

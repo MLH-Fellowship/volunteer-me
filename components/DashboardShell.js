@@ -13,9 +13,9 @@ import {
     Icon
   } from '@chakra-ui/react';
 
-  import { useAuth } from '../lib/auth';
-  import { GoSignOut } from 'react-icons/go';
-
+import { useAuth } from '../lib/auth';
+import { GoSignOut } from 'react-icons/go';
+import AddProjectModal from './AddProjectModal';
 
   const DashboardShell = ({ children}) => {
       const {user, signout } = useAuth();
@@ -33,6 +33,7 @@ import {
                   margin="0 auto"
                   w="full"
                   px={8}
+                  h="70px"
                   >
                       <Flex>
                     <Icon name="logo" size="24px" mr={8} />
@@ -40,11 +41,15 @@ import {
                     <Link>Volunteer</Link>
                     
                   </Flex>
-              <Flex justifyContent="center" alignItems="center">
+              <Flex 
+              justifyContent="center" 
+              alignItems="center">
+                {user &&  (
                   <Button leftIcon={<GoSignOut />} variant="ghost" mr={2} onClick={()=> signout()}>
                       Log Out
                   </Button>
-                  <Avatar size="sm" src={user.photoUrl} />
+                  )}
+                  <Avatar size="sm" src={user?.photoUrl} />
                   </Flex>
                   </Flex>
               </Flex>
@@ -57,7 +62,8 @@ import {
                 </Breadcrumb>
                 <Flex justifyContent="space-between">
                     <Heading mb={8}>My Projects</Heading>
-                    <Button
+                    <AddProjectModal> Add Project</AddProjectModal>
+                    {/* <Button
                     backgroundColor="gray.900"
                     color="white"
                     fontWeight="medium"
@@ -68,7 +74,7 @@ import {
                     }}
                     >
                     + Add Project
-                    </Button>
+                    </Button> */}
             </Flex>
             {children}
           </Flex>
