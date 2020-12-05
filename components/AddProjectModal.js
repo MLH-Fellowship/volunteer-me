@@ -31,12 +31,25 @@ const AddProjectModal = () => {
   // const onCreateProject = (values) => {
   //     createProject(values);
 
-  const onCreateProject = ({ project, url }) => {
+  const onCreateProject = ({ project,
+    url,
+    projectFocus,
+    requiredVolunteers,
+    city,
+    country,
+    startDate,
+    endDate }) => {
     createProject({
-      authodId: auth.user.uid,
+      authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
       project,
       url,
+      projectFocus,
+      requiredVolunteers,
+      city,
+      country,
+      startDate,
+      endDate,
     });
     toast({
       title: "Success!",
@@ -74,6 +87,66 @@ const AddProjectModal = () => {
               <Input
                 placeholder="https://website.com"
                 name="url"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Focus</FormLabel>
+              <Input
+                placeholder="e.g. Education"
+                name="projectFocus"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Volunteers Needed</FormLabel>
+              <Input
+                placeholder="e.g. 10"
+                name="requiredVolunteers"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>City</FormLabel>
+              <Input
+                placeholder="e.g. Toronto"
+                name="city"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Country</FormLabel>
+              <Input
+                placeholder="e.g. Canada"
+                name="country"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Start Date</FormLabel>
+              <Input
+                placeholder="01-01-2020"
+                name="startDate"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>End Date</FormLabel>
+              <Input
+                placeholder="01-01-2021"
+                name="endDate"
                 ref={register({
                   required: "Required",
                 })}
