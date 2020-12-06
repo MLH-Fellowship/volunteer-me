@@ -1,7 +1,3 @@
-import Head from 'next/head';
-import { Button, Flex, Text, Code, Icon} from '@chakra-ui/react';
-
-
 import { useAuth } from '@/lib/auth';
 import EmptyState from '@/components/EmptyState'
 import DashboardShell from '@/components/DashboardShell';
@@ -25,7 +21,7 @@ const Dashboard = () => {
 
     return (
         <DashboardShell>
-            {data.projects ? <ProjectTable projects= {data.projects} /> : <EmptyState />}
+            {data.projects.length !=0 ? <ProjectTable projects= {data.projects} /> : <EmptyState />}
         </DashboardShell>
     );
 };

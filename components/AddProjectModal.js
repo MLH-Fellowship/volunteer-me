@@ -1,4 +1,4 @@
-import { useRef } from "react";
+
 import { useForm } from "react-hook-form";
 
 import { useAuth } from "@/lib/auth";
@@ -23,7 +23,6 @@ import {
 import { createProject } from "@/lib/db";
 
 const AddProjectModal = ({ children }) => {
-  const initialRef = useRef();
   const toast = useToast();
   const auth = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,25 +31,26 @@ const AddProjectModal = ({ children }) => {
   // const onCreateProject = (values) => {
   //     createProject(values);
 
-  const onCreateProject = ({ project,
+  const onCreateProject = ({ name,
     url,
-    projectFocus,
-    requiredVolunteers,
-    city,
-    country,
-    startDate,
-    endDate }) => {
+    // projectFocus,
+    // requiredVolunteers,
+    // city,
+    // country,
+    // startDate,
+    // endDate 
+  }) => {
     const newProject = {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
-      project,
-      url,
-      projectFocus,
-      requiredVolunteers,
-      city,
-      country,
-      startDate,
-      endDate,
+      name,
+      url
+      // projectFocus,
+      // requiredVolunteers,
+      // city,
+      // country,
+      // startDate,
+      // endDate,
     };
     createProject(newProject);
     toast({
@@ -60,29 +60,25 @@ const AddProjectModal = ({ children }) => {
       duration: 5000,
       isClosable: true,
     });
-    mutate(
-      '/api/projects',
-      async (data) => {
-        return { projects: [...data.projects, newProject] };
-      },
-      false
-    );
+    mutate('/api/projects', async (data) => {
+      return { projects: [...data.projects, newProject] };
+    }, false);
     onClose();
   };
 
   return (
     <>
-      <Button 
-      onClick={onOpen}
-      fontWeight="medium" 
-      maxW="200px" 
-      backgroundColor="gray.900"
-      color="white"
-      _hover={{ bg: 'gray.700' }}
-      _active={{
-        bg: 'gray.800',
-        transform: 'scale(0.95)'
-      }}
+      <Button
+        onClick={onOpen}
+        fontWeight="medium"
+        maxW="200px"
+        backgroundColor="gray.900"
+        color="white"
+        _hover={{ bg: 'gray.700' }}
+        _active={{
+          bg: 'gray.800',
+          transform: 'scale(0.95)'
+        }}
       >
         {/* +  */}
         {/* Add your First Project */}
@@ -98,7 +94,7 @@ const AddProjectModal = ({ children }) => {
               <FormLabel>Name</FormLabel>
               <Input
                 placeholder="My Project"
-                name="project"
+                name="name"
                 ref={register({
                   required: "Required",
                 })}
@@ -177,7 +173,7 @@ const AddProjectModal = ({ children }) => {
           </ModalBody>
 
 
-          
+
           <ModalFooter>
             <Button onClick={onClose} mr={3} fontWeight="medium">
               Cancel

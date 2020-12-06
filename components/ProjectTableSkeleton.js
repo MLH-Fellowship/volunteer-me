@@ -25,12 +25,17 @@ const ProjectTableSkeleton = () => {
         <Table>
         <thead>
         <Tr>
-        <Th>Project</Th>
-        <Th>Project Link</Th>
-        <Th>Volunteer Link</Th>
-        <Th>Project</Th>
-        <Th>Date Added</Th>
-        <Th>{''}</Th>
+        <Th>Name</Th>
+          <Th>Project Link</Th>
+          <Th>Project Focus</Th>
+          {/* <Th>Date Added</Th> */}
+          <Th>Required Volunteers</Th>
+          <Th>Start Date</Th>
+          <Th>End Date Added</Th>
+          <Th>City </Th>
+          {/* <Th>Country</Th> */}
+          <Th>Volunteers</Th>
+          <Th>{''}</Th>
         </Tr>
         </thead>
         <tbody>
@@ -38,6 +43,9 @@ const ProjectTableSkeleton = () => {
         <SkeletonRow width="125px" />
         <SkeletonRow width="50px" />
         <SkeletonRow width="100px" />
+        <SkeletonRow width="75px" />
+        <SkeletonRow width="100px" />
+        <SkeletonRow width="75px" />
         <SkeletonRow width="75px" />
       </tbody>
     </Table>

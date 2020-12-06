@@ -4,7 +4,7 @@ export default (req, res) => {
   return new Promise((resolve, reject) => {
     db.collection("projects")
       .add({
-        project: "new newww", // to change
+        name: "new newww", // to change
         url: "",
         createdAt: new Date(),
         authorId: req.query.uid,

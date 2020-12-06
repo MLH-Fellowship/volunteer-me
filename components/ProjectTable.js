@@ -24,7 +24,7 @@ const ProjectTable = ({ projects }) => {
       <tbody>
         {projects.map((project) => (
           <Box as="tr" key={project.url}>
-            <Td fontWeight="medium">{project.project}</Td>
+            <Td fontWeight="medium">{project.name}</Td>
             <Td>{project.url}</Td>
             <Td>{project.projectFocus}</Td>
             {/* <Td>{format(parseISO(project.createdAt), 'PPpp')}</Td> */}
