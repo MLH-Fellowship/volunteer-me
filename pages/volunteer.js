@@ -7,7 +7,7 @@ import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
 
 
-const Dashboard = () => {
+const Volunteer = () => {
     const auth = useAuth();
     const { data } = useSWR('/api/projects',fetcher);
 
@@ -26,4 +26,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Volunteer;

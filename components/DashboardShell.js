@@ -35,8 +35,9 @@ const DashboardShell = ({ children }) => {
         >
           <Flex>
             <Icon name="logo" size="24px" mr={8} />
-            <Link mr={4}>Project</Link>
-            <Link>Volunteer</Link>
+            <Link mr={4} href="/project">Project</Link>
+            <Link href="/volunteer" mr={4}>Volunteer</Link>
+            <Link href="/about">About</Link>
           </Flex>
           <Flex justifyContent="center" alignItems="center">
             {user && (
