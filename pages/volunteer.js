@@ -17,6 +17,7 @@ import {
     InfoWindow,
 } from "@react-google-maps/api";
 import googleMapStyles from '../components/googleMapStyles';
+import Layout from '@/components/Layout';
 
 // Map Default size
 const mapContainerStyle = {
@@ -65,16 +66,13 @@ const Volunteer = () => {
     if (loadError) return "Error";
     if (!isLoaded) return "Loading...";
 
-
-
-
     return (
         <>
             <Head>
                 <title>Volunteer | Volunteer.me</title>
             </Head>
-            <DashboardShell>
-                <Flex justifyContent="space-between">
+            <Layout>
+                <Flex margin="0 auto" direction="column" maxW="1250px" px={8}>
                     <Heading mb={8}>Volunteer</Heading>
                 </Flex>
                 <Flex align="center" justify="center">
@@ -84,7 +82,6 @@ const Volunteer = () => {
                         zoom={13}
                         center={mapDefaultCenter}
                         options={mapOptions}
-                        // onClick={onMapClick}
                         onLoad={onMapLoad}
                     >
                         {markers.map(marker => (
@@ -106,7 +103,7 @@ const Volunteer = () => {
                         ) : null}
                     </GoogleMap>
                 </Flex>
-            </DashboardShell>
+            </Layout>
 
         </>
 
