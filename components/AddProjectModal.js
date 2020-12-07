@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { mutate } from "swr";
 import {
@@ -42,16 +42,79 @@ import { createProject } from "@/lib/db";
 
 const libraries = ["places"];
 
+
+const Search = () => {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      // toronto coords
+      location: { lat: () => 43.6532, lng: () => -79.3832 },
+      radius: 100 * 1000,
+    },
+  });
+  const handleInput = (e) => {
+    setValue(e.target.value);
+    console.log(e.target.value)
+  };
+
+  // const handleSelect = async (address) => {
+  //   setValue(address, false);
+  //   // clearSuggestions();
+
+  //   console.log(address);
+  //   try {
+  //     const results = await getGeocode({ address });
+  //     const { lat, lng } = await getLatLng(results[0]);
+  //     // panTo({ lat, lng });
+  //     console.log("📍 Coordinates: ", { lat, lng });
+  //   } catch (error) {
+  //     console.log("😱 Error: ", error);
+  //   }
+  // };
+
+  const handleSelect = (val) => {
+    setValue(val, false);
+  };
+  console.log(data);
+  return (
+    <Combobox onSelect={handleSelect}>
+      <ComboboxInput
+        value={value}
+        onChange={handleInput}
+        disabled={!ready}
+        placeholder="Search your location"
+      />
+      <ComboboxPopover>
+        <ComboboxList>
+          {status === "OK" &&
+            data.map(({ place_id, description }) => (
+              <ComboboxOption key={place_id} value={description} />
+            ))}
+        </ComboboxList>
+      </ComboboxPopover>
+    </Combobox>)
+}
+
 const AddProjectModal = ({ children }) => {
   const toast = useToast();
   const auth = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register } = useForm();
-
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+  console.log(isLoaded, loadError);
+
+  // search
+  // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
+
 
   const onCreateProject = ({
     name,
@@ -92,46 +155,32 @@ const AddProjectModal = ({ children }) => {
     );
     onClose();
   };
-
-  // search
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete();
-
-  // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
-
-  const handleInput = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleSelect = async (address) => {
-    setValue(address, false);
-    clearSuggestions();
-
-    try {
-      const results = await getGeocode({ address });
-      const { lat, lng } = await getLatLng(results[0]);
-      // panTo({ lat, lng });
-    } catch (error) {
-      console.log("😱 Error: ", error);
-    }
-  };
-
   // This are conditional "states" coming from the `react-google-maps` hooks
   // As this returns actual render stuff really fast that's why the following
   // code (such as other hooks) below them could not be run at first.
   // React enforces all hooks run. I.e. any conditionals as these that render anything 
   // cause bad stuff 
-  
+
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
   return (
     <>
+      <GoogleMap
+        id="map"
+        mapContainerStyle={{
+          height: "400px",
+          width: "80vw",
+        }}
+        zoom={13}
+        center={{
+          //   San Francisco Coords
+          lat: 37.774929,
+          lng: -122.419418,
+        }}
+      // options={mapOptions}
+      // onLoad={onMapLoad}
+      ></GoogleMap>
       <Button
         onClick={onOpen}
         fontWeight="medium"
@@ -154,6 +203,7 @@ const AddProjectModal = ({ children }) => {
           <ModalHeader fontWeight="bold">Add Project</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
+            <Search />
             <FormControl>
               <FormLabel>Name</FormLabel>
               <Input
@@ -205,22 +255,8 @@ const AddProjectModal = ({ children }) => {
               />
             </FormControl>
             {/* search */}
-            <Combobox onSelect={handleSelect}>
-              <ComboboxInput
-                value={value}
-                onChange={handleInput}
-                disabled={!ready}
-                placeholder="Search your location"
-              />
-              <ComboboxPopover>
-                <ComboboxList>
-                  {status === "OK" &&
-                    data.map(({ id, description }) => (
-                      <ComboboxOption key={id} value={description} />
-                    ))}
-                </ComboboxList>
-              </ComboboxPopover>
-            </Combobox>
+
+
             {/* end search */}
             <FormControl mt={4}>
               <FormLabel>Country</FormLabel>
