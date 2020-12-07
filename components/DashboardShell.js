@@ -5,11 +5,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Heading,
-  Button,
   Flex,
-  Link,
-  Avatar,
-  Icon
 } from '@chakra-ui/react';
 
 import { useAuth } from '@/lib/auth';

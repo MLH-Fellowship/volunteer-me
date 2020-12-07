@@ -46,7 +46,7 @@ const Home = () => {
       )}
       </Stack> */}
     {auth.user ? (
-      <Button as="a" href="/dashboard">
+      <Button as="a" href="/project">
         View Dashboard
       </Button>
     ) : (
