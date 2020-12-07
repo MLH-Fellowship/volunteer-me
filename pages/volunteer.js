@@ -18,6 +18,7 @@ import {
 } from "@react-google-maps/api";
 import googleMapStyles from '../components/googleMapStyles';
 import Layout from '@/components/Layout';
+import VolunteerSkeleton from '@/components/VolunteerSkeleton';
 
 // Map Default size
 const mapContainerStyle = {
@@ -62,9 +63,23 @@ const Volunteer = () => {
         mapRef.current = map;
     })
 
-    // TODO: Change these returns for skeletons
-    if (loadError) return "Error";
-    if (!isLoaded) return "Loading...";
+    if (loadError) return (
+        < Layout >
+            <Flex margin="0 auto" direction="column" maxW="1250px" px={8}>
+                <Heading mb={8}>Volunteer</Heading>
+            </Flex>
+            <VolunteerSkeleton />
+            <p>There was an error loading the map</p>
+        </Layout >
+    );;
+    if (!isLoaded) return (
+        < Layout >
+            <Flex margin="0 auto" direction="column" maxW="1250px" px={8}>
+                <Heading mb={8}>Volunteer</Heading>
+            </Flex>
+            <VolunteerSkeleton />
+        </Layout >
+    );
 
     return (
         <>
