@@ -6,6 +6,8 @@ import ProjectTableSkeleton from '@/components/ProjectTableSkeleton';
 import ProjectTable from '@/components/ProjectTable';
 import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
+import React, { useState } from "react"
+import { Flex, Heading } from "@chakra-ui/react"
 
 // G MAP imports
 import {
@@ -17,8 +19,8 @@ import {
 import googleMapStyles from '../components/googleMapStyles';
 
 const mapContainerStyle = {
-    height: "100vh",
-    width: "100vw",
+    height: "400px",
+    width: "80vw",
 };
 const mapOptions = {
     styles: googleMapStyles,
@@ -34,6 +36,17 @@ const mapDefaultCenter = {
 const Volunteer = () => {
     const auth = useAuth();
     const { data } = useSWR('/api/projects', fetcher);
+    // Map markers
+    const [markers, setMarkers] = useState([{
+        lat: 37.774929,
+        lng: -122.419418,
+    },
+    {
+        lat: 37.77213900951256,
+        lng: -122.47091779594122
+
+    }
+    ]);
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -43,23 +56,37 @@ const Volunteer = () => {
     if (loadError) return "Error";
     if (!isLoaded) return "Loading...";
 
+
+
+
     return (
         <>
             <Head>
                 <title>Volunteer | Volunteer.me</title>
             </Head>
             <DashboardShell>
-                <h1>Volunteer</h1>
+                <Flex justifyContent="space-between">
+                    <Heading mb={8}>Volunteer</Heading>
+                </Flex>
+                <Flex align="center" justify="center">
+                    <GoogleMap
+                        id="map"
+                        mapContainerStyle={mapContainerStyle}
+                        zoom={12}
+                        center={mapDefaultCenter}
+                        options={mapOptions}
+                    // onClick={onMapClick}
+                    // onLoad={onMapLoad}
+                    >
+                        {markers.map(marker => {
+                            <Marker
+                                key={`${marker.lat}-${marker.lng}`}
+                                position={{ lat: marker.lat, lng: marker.lng }}
+                            />
+                        })}
+                    </GoogleMap>
+                </Flex>
             </DashboardShell>
-            <GoogleMap
-                id="map"
-                mapContainerStyle={mapContainerStyle}
-                zoom={14}
-                center={mapDefaultCenter}
-                options={mapOptions}
-                // onClick={onMapClick}
-                // onLoad={onMapLoad}
-            ></GoogleMap>
 
         </>
 
