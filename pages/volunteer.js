@@ -48,9 +48,16 @@ const Volunteer = () => {
     }
     ]);
 
+    const [selectedMarker, setSelectedMarker] = useState(null);
+
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     });
+
+    const mapRef = React.useRef();
+    const onMapLoad = React.useCallback((map) => {
+        mapRef.current = map;
+    })
 
     // TODO: Change these returns for skeletons
     if (loadError) return "Error";
@@ -75,15 +82,37 @@ const Volunteer = () => {
                         zoom={12}
                         center={mapDefaultCenter}
                         options={mapOptions}
-                    // onClick={onMapClick}
-                    // onLoad={onMapLoad}
+                        // onClick={onMapClick}
+                        onLoad={onMapLoad}
                     >
-                        {markers.map(marker => {
+                        {/* {markers.map(marker => {
                             <Marker
                                 key={`${marker.lat}-${marker.lng}`}
                                 position={{ lat: marker.lat, lng: marker.lng }}
-                            />
-                        })}
+                                />
+                            })} */}
+                        <Marker
+                            position={{
+                                lat: 37.774929,
+                                lng: -122.419418,
+                            }}
+                            onClick={
+                                () => setSelectedMarker({
+                                    lat: 37.774929,
+                                    lng: -122.419418,
+                                })
+                            }
+                        />
+                        {selectedMarker ? (
+                            <InfoWindow
+                                position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+                                onCloseClick={() => {
+                                    setSelectedMarker(null);
+                                }}
+                            >
+                                <p>Description text</p>
+                            </InfoWindow>
+                        ) : null}
                     </GoogleMap>
                 </Flex>
             </DashboardShell>
