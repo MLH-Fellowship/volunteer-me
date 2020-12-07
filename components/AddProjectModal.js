@@ -53,9 +53,6 @@ const AddProjectModal = ({ children }) => {
     libraries,
   });
 
-  if (loadError) return "Error";
-  if (!isLoaded) return "Loading...";
-
   const onCreateProject = ({
     name,
     url,
@@ -123,6 +120,15 @@ const AddProjectModal = ({ children }) => {
       console.log("😱 Error: ", error);
     }
   };
+
+  // This are conditional "states" coming from the `react-google-maps` hooks
+  // As this returns actual render stuff really fast that's why the following
+  // code (such as other hooks) below them could not be run at first.
+  // React enforces all hooks run. I.e. any conditionals as these that render anything 
+  // cause bad stuff 
+  
+  if (loadError) return "Error";
+  if (!isLoaded) return "Loading...";
 
   return (
     <>
