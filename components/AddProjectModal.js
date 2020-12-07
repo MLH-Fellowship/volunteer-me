@@ -1,8 +1,7 @@
-
 import { useForm } from "react-hook-form";
-
+import React from "react";
 import { useAuth } from "@/lib/auth";
-import { mutate } from 'swr';
+import { mutate } from "swr";
 import {
   Modal,
   ModelOverlay,
@@ -20,7 +19,28 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 
+// for autofill
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+
 import { createProject } from "@/lib/db";
+
+const libraries = ["places"];
 
 const AddProjectModal = ({ children }) => {
   const toast = useToast();
@@ -28,23 +48,29 @@ const AddProjectModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register } = useForm();
 
-  // const onCreateProject = (values) => {
-  //     createProject(values);
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
 
-  const onCreateProject = ({ name,
+  if (loadError) return "Error";
+  if (!isLoaded) return "Loading...";
+
+  const onCreateProject = ({
+    name,
     url,
     // projectFocus,
     // requiredVolunteers,
     // city,
     // country,
     // startDate,
-    // endDate 
+    // endDate
   }) => {
     const newProject = {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
       name,
-      url
+      url,
       // projectFocus,
       // requiredVolunteers,
       // city,
@@ -60,10 +86,42 @@ const AddProjectModal = ({ children }) => {
       duration: 5000,
       isClosable: true,
     });
-    mutate('/api/projects', async (data) => {
-      return { projects: [...data.projects, newProject] };
-    }, false);
+    mutate(
+      "/api/projects",
+      async (data) => {
+        return { projects: [...data.projects, newProject] };
+      },
+      false
+    );
     onClose();
+  };
+
+  // search
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
+
+  const handleInput = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleSelect = async (address) => {
+    setValue(address, false);
+    clearSuggestions();
+
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      // panTo({ lat, lng });
+    } catch (error) {
+      console.log("😱 Error: ", error);
+    }
   };
 
   return (
@@ -74,10 +132,10 @@ const AddProjectModal = ({ children }) => {
         maxW="200px"
         backgroundColor="gray.900"
         color="white"
-        _hover={{ bg: 'gray.700' }}
+        _hover={{ bg: "gray.700" }}
         _active={{
-          bg: 'gray.800',
-          transform: 'scale(0.95)'
+          bg: "gray.800",
+          transform: "scale(0.95)",
         }}
       >
         {/* +  */}
@@ -140,6 +198,24 @@ const AddProjectModal = ({ children }) => {
                 })}
               />
             </FormControl>
+            {/* search */}
+            <Combobox onSelect={handleSelect}>
+              <ComboboxInput
+                value={value}
+                onChange={handleInput}
+                disabled={!ready}
+                placeholder="Search your location"
+              />
+              <ComboboxPopover>
+                <ComboboxList>
+                  {status === "OK" &&
+                    data.map(({ id, description }) => (
+                      <ComboboxOption key={id} value={description} />
+                    ))}
+                </ComboboxList>
+              </ComboboxPopover>
+            </Combobox>
+            {/* end search */}
             <FormControl mt={4}>
               <FormLabel>Country</FormLabel>
               <Input
@@ -171,9 +247,6 @@ const AddProjectModal = ({ children }) => {
               />
             </FormControl>
           </ModalBody>
-
-
-
           <ModalFooter>
             <Button onClick={onClose} mr={3} fontWeight="medium">
               Cancel
