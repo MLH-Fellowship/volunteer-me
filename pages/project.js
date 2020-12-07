@@ -5,24 +5,27 @@ import ProjectTableSkeleton from '@/components/ProjectTableSkeleton';
 import ProjectTable from '@/components/ProjectTable';
 import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
-
+import Layout from '@/components/Layout';
 
 const Project = () => {
     const auth = useAuth();
-    const { data } = useSWR('/api/projects',fetcher);
-
+    const { data } = useSWR('/api/projects', fetcher);
     if (!data) {
         return (
-            <DashboardShell>
-                <ProjectTableSkeleton />
-            </DashboardShell>
+            <Layout>
+                <DashboardShell>
+                    <ProjectTableSkeleton />
+                </DashboardShell>
+            </Layout>
         );
     }
 
     return (
-        <DashboardShell>
-            {data.projects.length !=0 ? <ProjectTable projects= {data.projects} /> : <EmptyState />}
-        </DashboardShell>
+        <Layout>
+            <DashboardShell>
+                {data.projects.length != 0 ? <ProjectTable projects={data.projects} /> : <EmptyState />}
+            </DashboardShell>
+        </Layout>
     );
 };
 
