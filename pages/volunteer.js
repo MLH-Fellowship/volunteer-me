@@ -18,6 +18,7 @@ import {
 } from "@react-google-maps/api";
 import googleMapStyles from '../components/googleMapStyles';
 
+// Map Default size
 const mapContainerStyle = {
     height: "400px",
     width: "80vw",
@@ -44,8 +45,9 @@ const Volunteer = () => {
     {
         lat: 37.77213900951256,
         lng: -122.47091779594122
-
-    }
+    },
+    // buenavista park
+    { lat: 37.76831279411594, lng: -122.44127623053058 },
     ]);
 
     const [selectedMarker, setSelectedMarker] = useState(null);
@@ -79,30 +81,19 @@ const Volunteer = () => {
                     <GoogleMap
                         id="map"
                         mapContainerStyle={mapContainerStyle}
-                        zoom={12}
+                        zoom={13}
                         center={mapDefaultCenter}
                         options={mapOptions}
                         // onClick={onMapClick}
                         onLoad={onMapLoad}
                     >
-                        {/* {markers.map(marker => {
+                        {markers.map(marker => (
                             <Marker
                                 key={`${marker.lat}-${marker.lng}`}
                                 position={{ lat: marker.lat, lng: marker.lng }}
-                                />
-                            })} */}
-                        <Marker
-                            position={{
-                                lat: 37.774929,
-                                lng: -122.419418,
-                            }}
-                            onClick={
-                                () => setSelectedMarker({
-                                    lat: 37.774929,
-                                    lng: -122.419418,
-                                })
-                            }
-                        />
+                                onClick={() => setSelectedMarker(marker)}
+                            />
+                        ))}
                         {selectedMarker ? (
                             <InfoWindow
                                 position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
@@ -110,7 +101,7 @@ const Volunteer = () => {
                                     setSelectedMarker(null);
                                 }}
                             >
-                                <p>Description text</p>
+                                <p>Description text {`${selectedMarker.lat}, ${selectedMarker.lng}`}</p>
                             </InfoWindow>
                         ) : null}
                     </GoogleMap>
