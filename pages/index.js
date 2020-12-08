@@ -35,7 +35,7 @@ const Home = () => {
           />
           <title>Volunteer Me</title>
         </Head>
-        <Icon color="black" name="logo" size="64px" />
+        <Icon color="black" name="logo" size="64px" href="favicons/favicon.ico" />
         <Text mb={4} fontSize="lg" p={6}>
           <Text as="span" fontWeight="bold" display="inline">
             Volunteer Me
