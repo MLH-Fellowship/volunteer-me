@@ -21,10 +21,7 @@ import {
 
 // for autofill
 import {
-  GoogleMap,
   useLoadScript,
-  Marker,
-  InfoWindow,
 } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -36,8 +33,9 @@ import {
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
+  ComboboxOptionText
 } from "@reach/combobox";
-
+import "@reach/combobox/styles.css";
 import { createProject } from "@/lib/db";
 
 const libraries = ["places"];
@@ -62,25 +60,23 @@ const Search = () => {
     console.log(e.target.value)
   };
 
-  // const handleSelect = async (address) => {
-  //   setValue(address, false);
-  //   // clearSuggestions();
+  const handleSelect = async (address) => {
+    setValue(address, false);
+    clearSuggestions();
 
-  //   console.log(address);
-  //   try {
-  //     const results = await getGeocode({ address });
-  //     const { lat, lng } = await getLatLng(results[0]);
-  //     // panTo({ lat, lng });
-  //     console.log("📍 Coordinates: ", { lat, lng });
-  //   } catch (error) {
-  //     console.log("😱 Error: ", error);
-  //   }
-  // };
+    console.log(address);
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      // panTo({ lat, lng });
 
-  const handleSelect = (val) => {
-    setValue(val, false);
+      // TODO: send these coords to form state
+      console.log("📍 Coordinates: ", { lat, lng });
+    } catch (error) {
+      console.log("😱 Error: ", error);
+    }
   };
-  console.log(data);
+
   return (
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
@@ -89,15 +85,19 @@ const Search = () => {
         disabled={!ready}
         placeholder="Search your location"
       />
-      <ComboboxPopover>
+      <ComboboxPopover style={{ zIndex: "2000" }}>
         <ComboboxList>
           {status === "OK" &&
             data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
+              // <p>{description}</p>
+              <ComboboxOption key={place_id} value={description}>
+                <ComboboxOptionText />
+              </ComboboxOption>
             ))}
         </ComboboxList>
       </ComboboxPopover>
-    </Combobox>)
+    </Combobox>
+  )
 }
 
 const AddProjectModal = ({ children }) => {
@@ -166,21 +166,6 @@ const AddProjectModal = ({ children }) => {
 
   return (
     <>
-      <GoogleMap
-        id="map"
-        mapContainerStyle={{
-          height: "400px",
-          width: "80vw",
-        }}
-        zoom={13}
-        center={{
-          //   San Francisco Coords
-          lat: 37.774929,
-          lng: -122.419418,
-        }}
-      // options={mapOptions}
-      // onLoad={onMapLoad}
-      ></GoogleMap>
       <Button
         onClick={onOpen}
         fontWeight="medium"
