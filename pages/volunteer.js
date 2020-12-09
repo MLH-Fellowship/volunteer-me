@@ -31,7 +31,6 @@ const mapOptions = {
   zoomControl: true,
 };
 const mapDefaultCenter = {
-  //   San Francisco Coords
   lat: 37.774929,
   lng: -122.419418,
 };
@@ -39,20 +38,6 @@ const mapDefaultCenter = {
 const Volunteer = () => {
   const auth = useAuth();
   const { data } = useSWR("/api/projects", fetcher);
-
-  // Map markers
-  // const [markers, setMarkers] = useState([
-  //   {
-  //     lat: 37.774929,
-  //     lng: -122.419418,
-  //   },
-  //   {
-  //     lat: 37.77213900951256,
-  //     lng: -122.47091779594122,
-  //   },
-  //   // buenavista park
-  //   { lat: 37.76831279411594, lng: -122.44127623053058 },
-  // ]);
 
   const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -88,8 +73,6 @@ const Volunteer = () => {
   if (!data) {
     return <></>;
   }
-  const arr = data.projects.map(p => ({lng: p.lng, lat: p.lat}))
-  console.log(arr)
 
   return (
     <>
@@ -104,18 +87,18 @@ const Volunteer = () => {
               id="map"
               mapContainerStyle={mapContainerStyle}
               zoom={13}
-              center={mapDefaultCenter}
+              center={{ lat: data.projects[0].lat, lng: data.projects[0].lng }}
               options={mapOptions}
               onLoad={onMapLoad}
             >
-              {arr.map((marker) => (
+              {data.projects.map((marker) => (
                 <Marker
-                  key={`${marker.lat}-${marker.lng}`}
+                  key={`${marker.id}+${marker.lat}-${marker.lng}`}
                   position={{ lat: marker.lat, lng: marker.lng }}
-                  // onClick={() => setSelectedMarker(arr)}
+                  onClick={() => setSelectedMarker(marker)}
                 />
               ))}
-              {/* {selectedMarker ? (
+              {selectedMarker ? (
                 <InfoWindow
                   position={{
                     lat: selectedMarker.lat,
@@ -130,17 +113,22 @@ const Volunteer = () => {
                     {`${selectedMarker.lat}, ${selectedMarker.lng}`}
                   </p>
                 </InfoWindow>
-              ) : null} */}
+              ) : null}
             </GoogleMap>
           </Flex>
           <br />
-          <Flex align="center" justify="center">
-            {data.projects.length != 0 ? (
-              <ProjectTable projects={data.projects} />
-            ) : (
-              <EmptyState />
-            )}
-          </Flex>
+          {selectedMarker ? (
+            <ProjectTable projects={[selectedMarker]} />
+          ) : (
+            <Flex align="center" justify="center">
+              {data.projects.length != 0 ? (
+                <ProjectTable projects={data.projects} />
+              ) : (
+                <EmptyState />
+              )}
+            </Flex>
+          )}
+
           <Footer />
         </Flex>
       </Layout>
