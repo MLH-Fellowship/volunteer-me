@@ -1,8 +1,10 @@
 import { ThemeProvider, CSSReset } from '@chakra-ui/react';
 import { AuthProvider } from '../lib/auth'
+import { MDXProvider } from '@mdx-js/react';
 import { Global, css } from '@emotion/react';
 import customTheme from '../styles/theme';
 import '../styles/globals.css'
+import MDXComponents from '@/components/MDXComponents';
 
 const GlobalStyle =({ children }) => {
   return (
@@ -33,8 +35,10 @@ const App = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={customTheme}>
   <AuthProvider>
+  <MDXProvider components={MDXComponents}>
     <GlobalStyle/>
     <Component {...pageProps} />
+    </MDXProvider>
   </AuthProvider>
   </ThemeProvider>
   );

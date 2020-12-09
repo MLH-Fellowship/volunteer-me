@@ -2,26 +2,23 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { auth } from 'firebase';
 import { useAuth } from '@/lib/auth';
-
-import { FcGoogle } from 'react-icons/fc';
-
-// 1. import `ChakraProvider` component
+import Footer from '@/components/Footer';
 import { Box, Button, Flex, Text, Icon, Link, Stack } from '@chakra-ui/react';
-// import Link from 'next/link'
+import LoginButtons from '@/components/LoginButtons';
+import { Image } from "@chakra-ui/react"
 
 const Home = () => {
 
   const auth = useAuth();
   return (
-    <Box bg="gray.100">
+    <>
+    <Box bg="gray.100" py={16}>
       <Flex
         as="main"
         direction="column"
-        align="center"
-        justify="center"
-        h="100vh"
-        maxW="400px"
+        maxW="700px"
         margin="0 auto"
+        
       >
         <Head>
           <script
@@ -33,10 +30,9 @@ const Home = () => {
             `
             }}
           />
-          <title>Volunteer Me</title>
         </Head>
-        <Icon color="black" name="logo" size="64px" />
-        <Text mb={4} fontSize="lg" p={6}>
+        <Image src="https://antreclimited.com/wp-content/uploads/2016/06/socialcare_icon-300x300.png" boxSize="110px" />
+        <Text mb={4} fontSize="lg" py={4}>
           <Text as="span" fontWeight="bold" display="inline">
             Volunteer Me
     </Text>
@@ -60,49 +56,31 @@ const Home = () => {
             fontWeight="medium"
             mt={4}
             size="lg"
+            maxW="200px"
             _hover={{ bg: 'gray.100' }}
             _active={{
               bg: 'gray.100',
               transform: 'scale(0.95)'
             }}
           >
-
             View Projects
           </Button>
         ) : (
-            <Button
-              onClick={(e) => auth.signInWithGoogle()}
-              backgroundColor="red"
-              color="gray.900"
-              variant="outline"
-              fontWeight="medium"
-              leftIcon={<FcGoogle />}
-              mt={4}
-              size="lg"
-              _hover={{ bg: 'red.400' }}
-              _active={{
-                bg: 'gray.100',
-                transform: 'scale(0.95)'
-              }}
-            >
-              Sign In with Google
-            </Button>
+          <LoginButtons />
           )}
-
       </Flex>
     </Box>
-
-    // <footer className={styles.footer}>
-    //   <a
-    //     href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-    //     target="_blank"
-    //     rel="noopener noreferrer"
-    //   >
-    //     Powered by{' '}
-    //     <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-    //   </a>
-    // </footer>
-
+         <Box
+        display="flex"
+        flexDirection="column"
+        width="full"
+        maxWidth="700px"
+        margin="0 auto"
+        mt={8}
+      >
+        </Box>
+    <Footer />
+    </> 
   );
 };
 export default Home;
