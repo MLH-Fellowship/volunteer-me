@@ -18,6 +18,7 @@ import {
   Icon,
   Button,
 } from "@chakra-ui/react";
+import VolunteerFormModal from "@/components/VolunteerFormModal";
 
 function Proj() {
   const router = useRouter();
@@ -61,7 +62,7 @@ function Proj() {
             </Breadcrumb>
             <Flex justifyContent="space-between">
               <Heading mb={8}>{name}</Heading>
-              <Button
+              {/* <Button
                 fontWeight="medium"
                 maxW="200px"
                 backgroundColor="gray.900"
@@ -73,7 +74,10 @@ function Proj() {
                 }}
               >
                 + Join Project
-              </Button>
+              </Button> */}
+              <VolunteerFormModal >
+                + Join Project
+              </VolunteerFormModal>
             </Flex>
             <VolunteerSkeleton />
           </Flex>
