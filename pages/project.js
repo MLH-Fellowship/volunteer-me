@@ -29,8 +29,8 @@ const Project = () => {
   return (
     <Layout>
       <DashboardShell>
-        {data.projectsCreated.length != 0 ? (
-          <ProjectTable projects={data.projectsCreated} />
+        {data.projects.length != 0 ? (
+          <ProjectTable projects={data.projects} />
         ) : (
           <EmptyState />
         )}
