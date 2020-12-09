@@ -3,19 +3,27 @@ import { Box, Link } from '@chakra-ui/react';
 import { Table, Tr, Th, Td } from './Table';
 import { parseISO, format } from 'date-fns';
 
+const toSentenceCase = (camelCaseString) => {
+  if(camelCaseString){
+    let result = camelCaseString.replace(/([A-Z])/g, " $1");
+    let finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    return finalResult;
+  }
+  return null;
+}
 const ProjectTable = ({ projects }) => {
   return (
     <Table>
       <thead>
         <Tr>
           <Th>Name</Th>
-          <Th>Project Link</Th>
+          <Th>Project Website</Th>
           <Th>Project Focus</Th>
           {/* <Th>Date Added</Th> */}
           <Th>Required Volunteers</Th>
           <Th>Start Date</Th>
           <Th>End Date Added</Th>
-          <Th>City </Th>
+          <Th>Location</Th>
           {/* <Th>Country</Th> */}
           <Th>Volunteers</Th>
           <Th>{""}</Th>
@@ -28,13 +36,14 @@ const ProjectTable = ({ projects }) => {
               <Link href={"/project/" + project.id}>{project.name}</Link>
             </Td>
             <Td>{project.url}</Td>
-            <Td>{project.projectFocus}</Td>
+            <Td>{toSentenceCase(project.projectFocus)}</Td>
             {/* <Td>{format(parseISO(project.createdAt), 'PPpp')}</Td> */}
             <Td>{project.requiredVolunteers}</Td>
             <Td>{project.startDate}</Td>
             <Td>{project.endDate}</Td>
             <Td>
-              {project.city}, {project.country}
+              {/* {project.city}, {project.country} */}
+              {project.address}
             </Td>
             {/* <Td>{project.country}</Td> */}
             <Td>
