@@ -36,7 +36,7 @@ $ yarn dev
 
 Because we used `Next.js`, deployment is super easy!
 
-#### Deployed here: 
+#### Deployed here: https://volunteer-me.vercel.app/
 
 
 
