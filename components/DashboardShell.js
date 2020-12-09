@@ -6,19 +6,14 @@ import {
   BreadcrumbLink,
   Heading,
   Flex,
-  Link,
-  Avatar,
-  Icon,
-  Button
 } from '@chakra-ui/react';
 
 import { useAuth } from '@/lib/auth';
 import { GoSignOut } from 'react-icons/go';
 import AddProjectModal from './AddProjectModal';
-import Footer from '@/components/Footer';
 
 const DashboardShell = ({ children }) => {
-  const { user, signout } = useAuth();
+  const { user, signout } = useAuth();  
 
   return (
     <Box backgroundColor="gray.100" h="100vh">
@@ -34,7 +29,6 @@ const DashboardShell = ({ children }) => {
         </Flex>
         {children}
       </Flex>
-      <Footer />
     </Box>
   );
 };

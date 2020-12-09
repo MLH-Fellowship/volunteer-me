@@ -123,7 +123,6 @@ const Volunteer = () => {
               )}
             </Flex>
           )}
-          <Footer />
         </Flex>
       </Layout>
     </>

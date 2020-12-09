@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as NextLink } from "next/link";
 import {
     Button,
     Flex,
@@ -26,17 +27,29 @@ function Navbar() {
             >
                 <Flex>
                     <Icon name="logo" size="24px" mr={8} />
-                    <Link mr={4} href="/project">Project</Link>
+                    <Link href="/about" mr={4}>About</Link>
+                    {user ?
+                        <Link mr={4} href="/project">Project</Link>
+                        : null
+                    }
                     <Link href="/volunteer" mr={4}>Volunteer</Link>
-                    <Link href="/about">About</Link>
                 </Flex>
                 <Flex justifyContent="center" alignItems="center">
-                    {user && (
-                        <Button leftIcon={<GoSignOut />} variant="ghost" mr={2} onClick={() => signout()}>
-                            Log Out
-                        </Button>
-                    )}
-                    <Avatar size="sm" src={user?.photoUrl} />
+                    {user ? (
+                        <>
+                            <Button leftIcon={<GoSignOut />} variant="ghost" mr={2} onClick={() => signout()}>
+                                Log Out
+                                </Button>
+                            <Avatar size="sm" src={user?.photoUrl} />
+                        </>
+                    )
+                        :
+                        (
+                            <Link href="/" variant="ghost" mr={2} >
+                                Log In
+                            </Link>
+                        )
+                    }
                 </Flex>
             </Flex>
         </Flex>
