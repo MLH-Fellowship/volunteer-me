@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Breadcrumb,
@@ -9,13 +9,13 @@ import {
   Link,
   Avatar,
   Icon,
-  Button
-} from '@chakra-ui/react';
+  Button,
+} from "@chakra-ui/react";
 
-import { useAuth } from '@/lib/auth';
-import { GoSignOut } from 'react-icons/go';
-import AddProjectModal from './AddProjectModal';
-import Footer from '@/components/Footer';
+import { useAuth } from "@/lib/auth";
+import { GoSignOut } from "react-icons/go";
+import AddProjectModal from "./AddProjectModal";
+import Footer from "@/components/Footer";
 
 const DashboardShell = ({ children }) => {
   const { user, signout } = useAuth();

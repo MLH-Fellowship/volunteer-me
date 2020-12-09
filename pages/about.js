@@ -1,15 +1,12 @@
-
 // 1. import `ChakraProvider` component
-import { ChakraProvider } from "@chakra-ui/react"
+import { ChakraProvider } from "@chakra-ui/react";
 
 function About() {
-    
-    return (
+  return (
     <ChakraProvider>
-        <div>About</div>
-  </ChakraProvider>
-  )
-  }
-  
-  export default About;
-  
+      <div>About</div>
+    </ChakraProvider>
+  );
+}
+
+export default About;

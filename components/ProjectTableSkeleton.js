@@ -1,31 +1,30 @@
-import React from 'react';
-import {Box, Link, Skeleton} from '@chakra-ui/react';
-import {Table, Tr, Th, Td } from './Table';
+import React from "react";
+import { Box, Link, Skeleton } from "@chakra-ui/react";
+import { Table, Tr, Th, Td } from "./Table";
 
 const SkeletonRow = ({ width }) => (
-    <Box as="tr">
-            <Td>
-    <Skeleton height="10px" w={width} my={4} />
+  <Box as="tr">
+    <Td>
+      <Skeleton height="10px" w={width} my={4} />
     </Td>
     <Td>
-        <Skeleton height="10px" w={width} my={4} />
-
+      <Skeleton height="10px" w={width} my={4} />
     </Td>
     <Td>
-        <Skeleton height="10px" w={width} my={4} />
+      <Skeleton height="10px" w={width} my={4} />
     </Td>
     <Td>
-        <Skeleton height="10px" w={width} my={4} />
+      <Skeleton height="10px" w={width} my={4} />
     </Td>
-    </Box>
+  </Box>
 );
 
 const ProjectTableSkeleton = () => {
-    return (
-        <Table>
-        <thead>
+  return (
+    <Table>
+      <thead>
         <Tr>
-        <Th>Name</Th>
+          <Th>Name</Th>
           <Th>Project Link</Th>
           <Th>Project Focus</Th>
           {/* <Th>Date Added</Th> */}
@@ -35,10 +34,10 @@ const ProjectTableSkeleton = () => {
           <Th>City </Th>
           {/* <Th>Country</Th> */}
           <Th>Volunteers</Th>
-          <Th>{''}</Th>
+          <Th>{""}</Th>
         </Tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         <SkeletonRow width="75px" />
         <SkeletonRow width="125px" />
         <SkeletonRow width="50px" />
@@ -49,7 +48,7 @@ const ProjectTableSkeleton = () => {
         <SkeletonRow width="75px" />
       </tbody>
     </Table>
-    );
+  );
 };
 
 export default ProjectTableSkeleton;

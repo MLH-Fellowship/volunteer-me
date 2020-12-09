@@ -26,9 +26,7 @@ import {
 } from "@chakra-ui/react";
 
 // for autofill
-import {
-  useLoadScript,
-} from "@react-google-maps/api";
+import { useLoadScript } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -47,7 +45,7 @@ import { createProject } from "@/lib/db";
 const libraries = ["places"];
 
 // Seaech component handles autocomplete feature. Needs Places library.
-const Search = ({setLocation}) => {
+const Search = ({ setLocation }) => {
   const {
     ready,
     value,
@@ -63,7 +61,7 @@ const Search = ({setLocation}) => {
   });
   const handleInput = (e) => {
     setValue(e.target.value);
-    console.log(e.target.value)
+    console.log(e.target.value);
   };
 
   const handleSelect = async (address) => {
@@ -76,7 +74,7 @@ const Search = ({setLocation}) => {
       // panTo({ lat, lng });
 
       // console.log("📍 Coordinates: ", { lat, lng });
-      setLocation({address, lat, lng});
+      setLocation({ address, lat, lng });
     } catch (error) {
       console.log("😱 Error: ", error);
     }
@@ -84,7 +82,8 @@ const Search = ({setLocation}) => {
 
   return (
     <Combobox onSelect={handleSelect}>
-      <Input as={ComboboxInput}
+      <Input
+        as={ComboboxInput}
         name="location"
         value={value}
         onChange={handleInput}
@@ -103,8 +102,8 @@ const Search = ({setLocation}) => {
         </ComboboxList>
       </ComboboxPopover>
     </Combobox>
-  )
-}
+  );
+};
 
 const AddProjectModal = ({ children }) => {
   const auth = useAuth();
@@ -116,8 +115,8 @@ const AddProjectModal = ({ children }) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries,
   });
-  const [location, setLocation] = useState({ address: "", lat: 0, lng: 0 })
-  
+  const [location, setLocation] = useState({ address: "", lat: 0, lng: 0 });
+
   const onCreateProject = ({
     name,
     description,
@@ -126,7 +125,7 @@ const AddProjectModal = ({ children }) => {
     requiredVolunteers,
     // location,
     startDate,
-    endDate
+    endDate,
   }) => {
     const newProject = {
       authorId: auth.user.uid,
@@ -136,8 +135,8 @@ const AddProjectModal = ({ children }) => {
       url,
       projectFocus,
       requiredVolunteers,
-    // TODO: Find a way to add the 'location' to the useForm Hook
-    // this 'location' is accessed from app state, not react-hook-form 
+      // TODO: Find a way to add the 'location' to the useForm Hook
+      // this 'location' is accessed from app state, not react-hook-form
       address: location.address,
       lat: location.lat,
       lng: location.lng,
@@ -169,8 +168,8 @@ const AddProjectModal = ({ children }) => {
   // This are conditional "states" coming from the `react-google-maps` hooks
   // As this returns actual render stuff really fast that's why the following
   // code (such as other hooks) below them could not be run at first.
-  // React enforces all hooks run. I.e. any conditionals as these that render anything 
-  // cause bad stuff 
+  // React enforces all hooks run. I.e. any conditionals as these that render anything
+  // cause bad stuff
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
@@ -196,7 +195,6 @@ const AddProjectModal = ({ children }) => {
           <ModalHeader fontWeight="bold">Add Project</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-
             <FormControl>
               <FormLabel>Name</FormLabel>
               <Input
@@ -209,11 +207,13 @@ const AddProjectModal = ({ children }) => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Description</FormLabel>
-              <Input name="description"
+              <Input
+                name="description"
                 placeholder="Need volunteers for climate awareness day."
                 ref={register({
                   required: "Required",
-                })} />
+                })}
+              />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Link</FormLabel>
@@ -227,7 +227,8 @@ const AddProjectModal = ({ children }) => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Focus</FormLabel>
-              <Select placeholder="Select focus"
+              <Select
+                placeholder="Select focus"
                 name="projectFocus"
                 ref={register({
                   required: "Required",
@@ -237,16 +238,15 @@ const AddProjectModal = ({ children }) => {
                 <option value="climateChange">Climate Change</option>
                 <option value="communityService">Community Service</option>
                 <option value="protest">Protest</option>
-                <option value="generalVolunteering">General Volunteering</option>
+                <option value="generalVolunteering">
+                  General Volunteering
+                </option>
                 <option value="other">Other</option>
               </Select>
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Volunteers Needed</FormLabel>
-              <NumberInput defaultValue={5}
-                min={1}
-                max={300}
-              >
+              <NumberInput defaultValue={5} min={1} max={300}>
                 <NumberInputField
                   name="requiredVolunteers"
                   ref={register({
@@ -261,7 +261,7 @@ const AddProjectModal = ({ children }) => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Location</FormLabel>
-              <Search setLocation={setLocation}/>
+              <Search setLocation={setLocation} />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Start Date</FormLabel>

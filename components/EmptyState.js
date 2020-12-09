@@ -1,7 +1,6 @@
-import React from 'react';
-import { Heading, Flex, Text } from '@chakra-ui/react';
-import AddProjectModal from './AddProjectModal';
-
+import React from "react";
+import { Heading, Flex, Text } from "@chakra-ui/react";
+import AddProjectModal from "./AddProjectModal";
 
 const EmptyState = () => (
   <Flex

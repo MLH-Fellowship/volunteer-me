@@ -1,16 +1,16 @@
-import React from 'react';
-import { Box, Link } from '@chakra-ui/react';
-import { Table, Tr, Th, Td } from './Table';
-import { parseISO, format } from 'date-fns';
+import React from "react";
+import { Box, Link } from "@chakra-ui/react";
+import { Table, Tr, Th, Td } from "./Table";
+import { parseISO, format } from "date-fns";
 
 const toSentenceCase = (camelCaseString) => {
-  if(camelCaseString){
+  if (camelCaseString) {
     let result = camelCaseString.replace(/([A-Z])/g, " $1");
     let finalResult = result.charAt(0).toUpperCase() + result.slice(1);
     return finalResult;
   }
   return null;
-}
+};
 const ProjectTable = ({ projects }) => {
   return (
     <Table>
