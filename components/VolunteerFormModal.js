@@ -1,5 +1,6 @@
-import { useForm } from "react-hook-form";
 import React, { useState } from "react";
+import { useRouter } from 'next/router'
+import { useForm } from "react-hook-form";
 import { useAuth } from "@/lib/auth";
 import { mutate } from "swr";
 import {
@@ -32,29 +33,31 @@ function VolunteerFormModal({ children }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleSubmit, register } = useForm();
 
+	// query.pid stores the Project Id from the route
+	const {query} = useRouter()
+
 	const onCreateVolunteer = ({
 		name,
 		phone,
 		email,
 		description,
 		skill,
-		availability,
+		hours,
 	}) => {
 		const newVolunteer = {
-			authorId: auth.user.uid,
-			// I think we can get this from the route (not sure how to do that in NEXT)
-			// projectId: ,
+			volunteerId: auth.user.uid,
+			projectId: query.pid,
 			appliedAt: new Date().toISOString(),
 			name,
 			phone,
 			email,
 			description,
 			skill,
-			availability,
+			hours,
 		};
 
 		console.log(newVolunteer)
-		// addVolunteer(newVolunteer);
+		addVolunteer(newVolunteer);
 
 		toast({
 			title: "Success!",
@@ -160,7 +163,7 @@ function VolunteerFormModal({ children }) {
 								max={24}
 							>
 								<NumberInputField
-									name="availability"
+									name="hours"
 									ref={register({
 										required: "Required",
 									})}
