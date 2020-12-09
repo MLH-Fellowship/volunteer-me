@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 
 function Layout({ children }) {
     return (
-        <Box backgroundColor="gray.100" h="100vh">
+        <Box backgroundColor="gray.100">
             <Navbar />
             {children}
         </Box>
