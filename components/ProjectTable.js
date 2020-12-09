@@ -17,13 +17,13 @@ const ProjectTable = ({ projects }) => {
       <thead>
         <Tr>
           <Th>Name</Th>
-          <Th>Project Link</Th>
+          <Th>Project Website</Th>
           <Th>Project Focus</Th>
           {/* <Th>Date Added</Th> */}
           <Th>Required Volunteers</Th>
           <Th>Start Date</Th>
           <Th>End Date Added</Th>
-          <Th>City </Th>
+          <Th>Location</Th>
           {/* <Th>Country</Th> */}
           <Th>Volunteers</Th>
           <Th>{""}</Th>
@@ -42,7 +42,8 @@ const ProjectTable = ({ projects }) => {
             <Td>{project.startDate}</Td>
             <Td>{project.endDate}</Td>
             <Td>
-              {project.city}, {project.country}
+              {/* {project.city}, {project.country} */}
+              {project.address}
             </Td>
             {/* <Td>{project.country}</Td> */}
             <Td>
