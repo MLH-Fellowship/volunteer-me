@@ -1,4 +1,5 @@
 import { useAuth } from '@/lib/auth';
+import Head from "next/head"
 import EmptyState from '@/components/EmptyState'
 import DashboardShell from '@/components/DashboardShell';
 import ProjectTableSkeleton from '@/components/ProjectTableSkeleton';
@@ -8,7 +9,6 @@ import useSWR from 'swr';
 import Layout from '@/components/Layout';
 
 const Project = () => {
-    const auth = useAuth();
     const { data } = useSWR('/api/projects', fetcher);
     if (!data) {
         return (
@@ -19,19 +19,21 @@ const Project = () => {
             </Layout>
         );
     }
-    console.log(auth);
-    console.log(data);
+
     return (
-        <Layout>
-            <DashboardShell>
-                {data.projects.length != 0 ?
-
-                   ( <ProjectTable projects={data.projects} />)
-                    : (<EmptyState />)
-
-                }
-            </DashboardShell>
-        </Layout>
+        <>
+            <Head>
+                <title>My Projects</title>
+            </Head>
+            <Layout>
+                <DashboardShell>
+                    {data.projects.length != 0 ?
+                        (<ProjectTable projects={data.projects} />)
+                        : (<EmptyState />)
+                    }
+                </DashboardShell>
+            </Layout>
+        </>
     );
 };
 
