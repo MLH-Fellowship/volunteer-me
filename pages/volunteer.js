@@ -1,6 +1,6 @@
 import Head from "next/head";
 import EmptyState from "@/components/EmptyState";
-import ProjectTable from "@/components/ProjectTable";
+import ProjectTable from "@/components/ProjectTableUnfiltered";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import React, { useState } from "react";
@@ -115,14 +115,17 @@ const Volunteer = () => {
           {selectedMarker ? (
             <ProjectTable projects={[selectedMarker]} />
           ) : (
-            <Flex align="center" justify="center">
-              {data.projects.length != 0 ? (
-                <ProjectTable projects={data.projects} />
-              ) : (
-                <EmptyState />
-              )}
-            </Flex>
-          )}
+              <>
+                <Heading as="h5" size="md" my={8}>Top Projects</Heading>
+                <Flex mt={4} align="center" justify="center">
+                  {data.projects.length != 0 ? (
+                    <ProjectTable projects={data.projects} />
+                  ) : (
+                      <EmptyState />
+                    )}
+                </Flex>
+              </>
+            )}
         </Flex>
       </Layout>
     </>
