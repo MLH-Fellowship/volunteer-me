@@ -1,13 +1,10 @@
 import Head from "next/head";
-import { useAuth } from "@/lib/auth";
 import EmptyState from "@/components/EmptyState";
-import DashboardShell from "@/components/DashboardShell";
-import ProjectTableSkeleton from "@/components/ProjectTableSkeleton";
 import ProjectTable from "@/components/ProjectTable";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import React, { useState } from "react";
-import { Flex, Heading, Box } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import Footer from "@/components/Footer";
 // G MAP imports
 import {
@@ -30,13 +27,8 @@ const mapOptions = {
   disableDefaultUI: true,
   zoomControl: true,
 };
-const mapDefaultCenter = {
-  lat: 37.774929,
-  lng: -122.419418,
-};
 
 const Volunteer = () => {
-  const auth = useAuth();
   const { data } = useSWR("/api/projects", fetcher);
 
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -60,6 +52,7 @@ const Volunteer = () => {
         <p>There was an error loading the map</p>
       </Layout>
     );
+
   if (!isLoaded)
     return (
       <Layout>
@@ -83,6 +76,7 @@ const Volunteer = () => {
         <Flex margin="0 auto" direction="column" maxW="1250px" px={8}>
           <Heading mb={8}>Volunteer</Heading>
           <Flex align="center" justify="center">
+            {/* MAPS */}
             <GoogleMap
               id="map"
               mapContainerStyle={mapContainerStyle}
@@ -116,6 +110,7 @@ const Volunteer = () => {
               ) : null}
             </GoogleMap>
           </Flex>
+          {/* TABLE OF PROJECTS */}
           <br />
           {selectedMarker ? (
             <ProjectTable projects={[selectedMarker]} />
@@ -128,7 +123,6 @@ const Volunteer = () => {
               )}
             </Flex>
           )}
-
           <Footer />
         </Flex>
       </Layout>
