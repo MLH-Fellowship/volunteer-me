@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { Skeleton } from "@chakra-ui/react";
@@ -18,6 +18,26 @@ import {
   Icon,
   Button,
 } from "@chakra-ui/react";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+import googleMapStyles from "../../components/googleMapStyles";
+
+// Map Default size
+const mapContainerStyle = {
+  height: "400px",
+  width: "80vw",
+};
+const mapOptions = {
+  styles: googleMapStyles,
+  disableDefaultUI: true,
+  zoomControl: true,
+};
+
+import VolunteerFormModal from "@/components/VolunteerFormModal";
 
 function Proj() {
   const router = useRouter();
@@ -28,22 +48,32 @@ function Proj() {
   }
 
   var data = useSWR("/api/project/" + pid, fetcher).data;
-  console.log(data);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+  });
+
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback((map) => {
+    mapRef.current = map;
+  });
+
+  if (loadError) return <Layout>error</Layout>;
+  if (!isLoaded) return <></>;
 
   if (data) {
     const {
-      authorId,
       url,
       name,
       projectFocus,
       startDate,
       endDate,
       country,
+      lat,
+      lng,
       city,
       requiredVolunteers,
     } = data;
-
-    console.log(name);
 
     return (
       <Layout>
@@ -61,7 +91,7 @@ function Proj() {
             </Breadcrumb>
             <Flex justifyContent="space-between">
               <Heading mb={8}>{name}</Heading>
-              <Button
+              {/* <Button
                 fontWeight="medium"
                 maxW="200px"
                 backgroundColor="gray.900"
@@ -73,9 +103,24 @@ function Proj() {
                 }}
               >
                 + Join Project
-              </Button>
+              </Button> */}
+              <VolunteerFormModal>+ Join Project</VolunteerFormModal>
             </Flex>
-            <VolunteerSkeleton />
+            <Flex align="center" justify="center">
+              <GoogleMap
+                id="map"
+                mapContainerStyle={mapContainerStyle}
+                zoom={13}
+                center={{ lat: lat, lng: lng }}
+                options={mapOptions}
+                onLoad={onMapLoad}
+              >
+                <Marker
+                  key={`${lat}-${lng}`}
+                  position={{ lat: lat, lng: lng }}
+                />
+              </GoogleMap>
+            </Flex>
           </Flex>
         </Box>
       </Layout>
