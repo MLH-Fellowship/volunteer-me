@@ -9,7 +9,13 @@ import Layout from "@/components/Layout";
 
 const Project = () => {
   const auth = useAuth();
-  const { data } = useSWR("/api/projects", fetcher);
+
+  if(!auth.user){
+    return <></>
+  }
+  const { data } = useSWR("/api/user/" + auth.user.uid, fetcher);
+  console.log(auth.user)
+
   if (!data) {
     return (
       <Layout>
@@ -23,8 +29,8 @@ const Project = () => {
   return (
     <Layout>
       <DashboardShell>
-        {data.projects.length != 0 ? (
-          <ProjectTable projects={data.projects} />
+        {data.projectsCreated.length != 0 ? (
+          <ProjectTable projects={data.projectsCreated} />
         ) : (
           <EmptyState />
         )}

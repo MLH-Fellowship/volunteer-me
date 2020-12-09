@@ -135,8 +135,6 @@ const AddProjectModal = ({ children }) => {
       url,
       projectFocus,
       requiredVolunteers,
-      // TODO: Find a way to add the 'location' to the useForm Hook
-      // this 'location' is accessed from app state, not react-hook-form
       address: location.address,
       lat: location.lat,
       lng: location.lng,
@@ -144,7 +142,7 @@ const AddProjectModal = ({ children }) => {
       endDate,
     };
 
-    createProject(newProject);
+    createProject(newProject, auth.user.uid);
 
     toast({
       title: "Success!",
@@ -154,13 +152,13 @@ const AddProjectModal = ({ children }) => {
       isClosable: true,
     });
 
-    mutate(
-      "/api/projects",
-      async (data) => {
-        return { projects: [...data.projects, newProject] };
-      },
-      false
-    );
+    // mutate(
+    //   "/api/projects/",
+    //   async (data) => {
+    //     return { projects: [...data.projects, newProject] };
+    //   },
+    //   false
+    // );
 
     onClose();
   };
