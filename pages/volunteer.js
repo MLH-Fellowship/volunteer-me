@@ -4,8 +4,7 @@ import ProjectTable from "@/components/ProjectTableUnfiltered";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import React, { useState } from "react";
-import { Flex, Heading } from "@chakra-ui/react";
-import Footer from "@/components/Footer";
+import { Flex, Heading, Divider, Text } from "@chakra-ui/react";
 // G MAP imports
 import {
   GoogleMap,
@@ -102,10 +101,18 @@ const Volunteer = () => {
                     setSelectedMarker(null);
                   }}
                 >
-                  <p>
-                    Description text{" "}
-                    {`${selectedMarker.lat}, ${selectedMarker.lng}`}
-                  </p>
+                  {/* Description text{" "}
+
+                  {`${selectedMarker.lat}, ${selectedMarker.lng}`} */}
+                  <>
+                    <h5>
+                      {selectedMarker.name}
+                    </h5>
+                    <Divider />
+                    <Text mt={2} minW="100px">
+                      {selectedMarker.description}
+                    </Text>
+                  </>
                 </InfoWindow>
               ) : null}
             </GoogleMap>
