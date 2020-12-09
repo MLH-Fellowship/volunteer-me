@@ -36,11 +36,7 @@ const mapOptions = {
   disableDefaultUI: true,
   zoomControl: true,
 };
-const mapDefaultCenter = {
-  //   San Francisco Coords
-  lat: 37.774929,
-  lng: -122.419418,
-};
+
 import VolunteerFormModal from "@/components/VolunteerFormModal";
 
 function Proj() {
@@ -53,13 +49,6 @@ function Proj() {
 
   var data = useSWR("/api/project/" + pid, fetcher).data;
 
-  // Map markers
-  const [markers, setMarkers] = useState([
-    {},
-  ]);
-
-  const [selectedMarker, setSelectedMarker] = useState(null);
-
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -71,7 +60,6 @@ function Proj() {
 
   if (loadError) return <Layout>error</Layout>;
   if (!isLoaded) return <></>;
-  //
 
   if (data) {
     const {
@@ -81,11 +69,11 @@ function Proj() {
       startDate,
       endDate,
       country,
+      lat,
+      lng,
       city,
       requiredVolunteers,
     } = data;
-    console.log(data)
-    // setMarkers({ lat: 37.76831279411594, lng: -122.44127623053058 });
 
     return (
       <Layout>
@@ -116,42 +104,21 @@ function Proj() {
               >
                 + Join Project
               </Button> */}
-              <VolunteerFormModal >
-                + Join Project
-              </VolunteerFormModal>
+              <VolunteerFormModal>+ Join Project</VolunteerFormModal>
             </Flex>
             <Flex align="center" justify="center">
               <GoogleMap
                 id="map"
                 mapContainerStyle={mapContainerStyle}
                 zoom={13}
-                center={mapDefaultCenter}
+                center={{ lat: lat, lng: lng }}
                 options={mapOptions}
                 onLoad={onMapLoad}
               >
-                {markers.map((marker) => (
-                  <Marker
-                    key={`${marker.lat}-${marker.lng}`}
-                    position={{ lat: marker.lat, lng: marker.lng }}
-                    onClick={() => setSelectedMarker(marker)}
-                  />
-                ))}
-                {selectedMarker ? (
-                  <InfoWindow
-                    position={{
-                      lat: selectedMarker.lat,
-                      lng: selectedMarker.lng,
-                    }}
-                    onCloseClick={() => {
-                      setSelectedMarker(null);
-                    }}
-                  >
-                    <p>
-                      Description text{" "}
-                      {`${selectedMarker.lat}, ${selectedMarker.lng}`}
-                    </p>
-                  </InfoWindow>
-                ) : null}
+                <Marker
+                  key={`${lat}-${lng}`}
+                  position={{ lat: lat, lng: lng }}
+                />
               </GoogleMap>
             </Flex>
           </Flex>
