@@ -1,11 +1,10 @@
 import Head from "next/head";
 import EmptyState from "@/components/EmptyState";
-import ProjectTable from "@/components/ProjectTable";
+import ProjectTable from "@/components/ProjectTableUnfiltered";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import React, { useState } from "react";
-import { Flex, Heading } from "@chakra-ui/react";
-import Footer from "@/components/Footer";
+import { Flex, Heading, Divider, Text } from "@chakra-ui/react";
 // G MAP imports
 import {
   GoogleMap,
@@ -102,10 +101,18 @@ const Volunteer = () => {
                     setSelectedMarker(null);
                   }}
                 >
-                  <p>
-                    Description text{" "}
-                    {`${selectedMarker.lat}, ${selectedMarker.lng}`}
-                  </p>
+                  {/* Description text{" "}
+
+                  {`${selectedMarker.lat}, ${selectedMarker.lng}`} */}
+                  <>
+                    <h5>
+                      {selectedMarker.name}
+                    </h5>
+                    <Divider />
+                    <Text mt={2} minW="100px">
+                      {selectedMarker.description}
+                    </Text>
+                  </>
                 </InfoWindow>
               ) : null}
             </GoogleMap>
@@ -115,14 +122,17 @@ const Volunteer = () => {
           {selectedMarker ? (
             <ProjectTable projects={[selectedMarker]} />
           ) : (
-            <Flex align="center" justify="center">
-              {data.projects.length != 0 ? (
-                <ProjectTable projects={data.projects} />
-              ) : (
-                <EmptyState />
-              )}
-            </Flex>
-          )}
+              <>
+                <Heading as="h5" size="md" my={8}>Top Projects</Heading>
+                <Flex mt={4} align="center" justify="center">
+                  {data.projects.length != 0 ? (
+                    <ProjectTable projects={data.projects} />
+                  ) : (
+                      <EmptyState />
+                    )}
+                </Flex>
+              </>
+            )}
         </Flex>
       </Layout>
     </>
