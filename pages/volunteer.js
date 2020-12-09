@@ -8,7 +8,7 @@ import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
 import React, { useState } from "react"
 import { Flex, Heading } from "@chakra-ui/react"
-
+import Footer from '@/components/Footer';
 // G MAP imports
 import {
     GoogleMap,
@@ -118,6 +118,7 @@ const Volunteer = () => {
                         ) : null}
                     </GoogleMap>
                 </Flex>
+                <Footer />
             </Layout>
 
         </>
