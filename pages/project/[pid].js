@@ -41,6 +41,7 @@ const mapDefaultCenter = {
   lat: 37.774929,
   lng: -122.419418,
 };
+import VolunteerFormModal from "@/components/VolunteerFormModal";
 
 function Proj() {
   const router = useRouter();
@@ -83,7 +84,7 @@ function Proj() {
       city,
       requiredVolunteers,
     } = data;
-
+    console.log(data)
     // setMarkers({ lat: 37.76831279411594, lng: -122.44127623053058 });
 
     return (
@@ -102,7 +103,7 @@ function Proj() {
             </Breadcrumb>
             <Flex justifyContent="space-between">
               <Heading mb={8}>{name}</Heading>
-              <Button
+              {/* <Button
                 fontWeight="medium"
                 maxW="200px"
                 backgroundColor="gray.900"
@@ -114,7 +115,10 @@ function Proj() {
                 }}
               >
                 + Join Project
-              </Button>
+              </Button> */}
+              <VolunteerFormModal >
+                + Join Project
+              </VolunteerFormModal>
             </Flex>
             <Flex align="center" justify="center">
               <GoogleMap
