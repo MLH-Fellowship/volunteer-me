@@ -11,6 +11,7 @@ import { GoSignOut } from 'react-icons/go';
 
 function Navbar() {
     const { user, signout } = useAuth();
+    console.log("navbar", user)
     return (
         <Flex backgroundColor="white" mb={16} w="full">
             <Flex
@@ -26,7 +27,10 @@ function Navbar() {
             >
                 <Flex>
                     <Icon name="logo" size="24px" mr={8} />
-                    <Link mr={4} href="/project">Project</Link>
+                    {user ?
+                        <Link mr={4} href="/project">Project</Link>
+                        : null
+                    }
                     <Link href="/volunteer" mr={4}>Volunteer</Link>
                     <Link href="/about">About</Link>
                 </Flex>

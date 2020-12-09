@@ -19,11 +19,17 @@ const Project = () => {
             </Layout>
         );
     }
-
+    console.log(auth);
+    console.log(data);
     return (
         <Layout>
             <DashboardShell>
-                {data.projects.length != 0 ? <ProjectTable projects={data.projects} /> : <EmptyState />}
+                {data.projects.length != 0 ?
+
+                   ( <ProjectTable projects={data.projects} />)
+                    : (<EmptyState />)
+
+                }
             </DashboardShell>
         </Layout>
     );
