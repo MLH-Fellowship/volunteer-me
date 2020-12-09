@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { Skeleton } from "@chakra-ui/react";
@@ -18,6 +18,29 @@ import {
   Icon,
   Button,
 } from "@chakra-ui/react";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+import googleMapStyles from "../../components/googleMapStyles";
+
+// Map Default size
+const mapContainerStyle = {
+  height: "400px",
+  width: "80vw",
+};
+const mapOptions = {
+  styles: googleMapStyles,
+  disableDefaultUI: true,
+  zoomControl: true,
+};
+const mapDefaultCenter = {
+  //   San Francisco Coords
+  lat: 37.774929,
+  lng: -122.419418,
+};
 
 function Proj() {
   const router = useRouter();
@@ -28,11 +51,29 @@ function Proj() {
   }
 
   var data = useSWR("/api/project/" + pid, fetcher).data;
-  console.log(data);
+
+  // Map markers
+  const [markers, setMarkers] = useState([
+    {},
+  ]);
+
+  const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+  });
+
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback((map) => {
+    mapRef.current = map;
+  });
+
+  if (loadError) return <Layout>error</Layout>;
+  if (!isLoaded) return <></>;
+  //
 
   if (data) {
     const {
-      authorId,
       url,
       name,
       projectFocus,
@@ -43,7 +84,7 @@ function Proj() {
       requiredVolunteers,
     } = data;
 
-    console.log(name);
+    // setMarkers({ lat: 37.76831279411594, lng: -122.44127623053058 });
 
     return (
       <Layout>
@@ -75,7 +116,40 @@ function Proj() {
                 + Join Project
               </Button>
             </Flex>
-            <VolunteerSkeleton />
+            <Flex align="center" justify="center">
+              <GoogleMap
+                id="map"
+                mapContainerStyle={mapContainerStyle}
+                zoom={13}
+                center={mapDefaultCenter}
+                options={mapOptions}
+                onLoad={onMapLoad}
+              >
+                {markers.map((marker) => (
+                  <Marker
+                    key={`${marker.lat}-${marker.lng}`}
+                    position={{ lat: marker.lat, lng: marker.lng }}
+                    onClick={() => setSelectedMarker(marker)}
+                  />
+                ))}
+                {selectedMarker ? (
+                  <InfoWindow
+                    position={{
+                      lat: selectedMarker.lat,
+                      lng: selectedMarker.lng,
+                    }}
+                    onCloseClick={() => {
+                      setSelectedMarker(null);
+                    }}
+                  >
+                    <p>
+                      Description text{" "}
+                      {`${selectedMarker.lat}, ${selectedMarker.lng}`}
+                    </p>
+                  </InfoWindow>
+                ) : null}
+              </GoogleMap>
+            </Flex>
           </Flex>
         </Box>
       </Layout>
