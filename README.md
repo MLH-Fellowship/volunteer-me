@@ -5,7 +5,7 @@
 
 
 ## Motivation
-There aren't many platforms that are meant to serve the social purpose sector, so we decided to create Volunteer.me. Volunteer.me is a global collaboration platform promoting social good. Our goal is to provide a platform to connect people seeking for opportunism to help their community, and those who need volunteers.
+There aren't many platforms that are meant to serve the social purpose sector, so we decided to create Volunteer.me. Volunteer.me is a global collaboration platform promoting social good. Our goal is to provide a platform that connects people seeking to volunteer, and those who need volunteers.
 
 
 
