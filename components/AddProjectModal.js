@@ -70,14 +70,12 @@ const Search = ({setLocation}) => {
     setValue(address, false);
     clearSuggestions();
 
-    console.log(address);
     try {
       const results = await getGeocode({ address });
       const { lat, lng } = await getLatLng(results[0]);
       // panTo({ lat, lng });
 
-      // TODO: send these coords to form state
-      console.log("📍 Coordinates: ", { lat, lng });
+      // console.log("📍 Coordinates: ", { lat, lng });
       setLocation({address, lat, lng});
     } catch (error) {
       console.log("😱 Error: ", error);
@@ -138,6 +136,8 @@ const AddProjectModal = ({ children }) => {
       url,
       projectFocus,
       requiredVolunteers,
+    // TODO: Find a way to add the 'location' to the useForm Hook
+    // this 'location' is accessed from app state, not react-hook-form 
       address: location.address,
       lat: location.lat,
       lng: location.lng,
@@ -145,8 +145,7 @@ const AddProjectModal = ({ children }) => {
       endDate,
     };
 
-    console.log(newProject)
-    // createProject(newProject);
+    createProject(newProject);
 
     toast({
       title: "Success!",
