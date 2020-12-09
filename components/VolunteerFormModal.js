@@ -45,7 +45,7 @@ function VolunteerFormModal({ children }) {
 		hours,
 	}) => {
 		const newVolunteer = {
-			volunteerId: auth.user.uid,
+			userId: auth.user.uid,
 			projectId: query.pid,
 			appliedAt: new Date().toISOString(),
 			name,
