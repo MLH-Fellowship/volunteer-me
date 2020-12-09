@@ -27,7 +27,7 @@ function Navbar() {
             >
                 <Flex>
                     <Icon name="logo" size="24px" mr={8} />
-                    <Link href="/about">About</Link>
+                    <Link href="/about" mr={4}>About</Link>
                     {user ?
                         <Link mr={4} href="/project">Project</Link>
                         : null
@@ -36,13 +36,13 @@ function Navbar() {
                 </Flex>
                 <Flex justifyContent="center" alignItems="center">
                     {user ? (
-                            <>
-                                <Button leftIcon={<GoSignOut />} variant="ghost" mr={2} onClick={() => signout()}>
-                                    Log Out
+                        <>
+                            <Button leftIcon={<GoSignOut />} variant="ghost" mr={2} onClick={() => signout()}>
+                                Log Out
                                 </Button>
-                                <Avatar size="sm" src={user?.photoUrl} />
-                            </>
-                        )
+                            <Avatar size="sm" src={user?.photoUrl} />
+                        </>
+                    )
                         :
                         (
                             <Link href="/" variant="ghost" mr={2} >

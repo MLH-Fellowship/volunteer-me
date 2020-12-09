@@ -34,7 +34,6 @@ const DashboardShell = ({ children }) => {
         </Flex>
         {children}
       </Flex>
-      <Footer />
     </Box>
   );
 };
